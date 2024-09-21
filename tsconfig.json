@@ -9,7 +9,12 @@
     "types": ["vite/client"],
     "jsx": "react-jsx",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "server/*": ["src/server/*"]
+    }
   },
   "ts-node": {
     "transpileOnly": true,
@@ -18,5 +23,6 @@
       "module": "Node16",
       "moduleResolution": "Node16"
     }
-  }
+  },
+  "include": ["src", "src/server"]
 }

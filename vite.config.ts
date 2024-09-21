@@ -1,9 +1,21 @@
-import react from '@vitejs/plugin-react'
-import ssr from 'vite-plugin-ssr/plugin'
-import { UserConfig } from 'vite'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import ssr from "vite-plugin-ssr/plugin";
 
-const config: UserConfig = {
-  plugins: [react(), ssr()]
-}
-
-export default config
+export default defineConfig({
+  plugins: [react(), ssr()],
+  resolve: {
+    alias: {
+      "@": "/src",
+      server: "/src/server",
+    },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "react-router-dom"],
+  },
+  build: {
+    rollupOptions: {
+      input: "./src/server/index.tsx",
+    },
+  },
+});
