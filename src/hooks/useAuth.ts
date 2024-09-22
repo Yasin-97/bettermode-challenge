@@ -1,11 +1,12 @@
 import { useLazyQuery, useMutation } from "@apollo/client";
-// import { GET_GUEST_TOKEN } from "../graphql/queries/auth";
-// import { LOGIN_NETWORK } from "../graphql/mutations/auth";
+import { GET_GUEST_TOKEN } from "../graphql/queries/auth.js";
+import { LOGIN_NETWORK } from "../graphql/mutations/auth.js";
 import { toast } from "react-toastify";
-import { GuestTokenResponse, HandleLogin, LoginResponse } from "@/types/auth";
-import { LOGIN_NETWORK } from "@/providers/graphql/mutations/auth";
-import { GET_GUEST_TOKEN } from "@/providers/graphql/queries/auth";
-// import { GuestTokenResponse, HandleLogin, LoginResponse } from "../types/auth";
+import {
+  GuestTokenResponse,
+  HandleLogin,
+  LoginResponse,
+} from "../types/auth/index.js";
 
 export const useAuth = () => {
   const [
