@@ -1,8 +1,9 @@
 import React from "react";
 import Post from "./Post";
-import { usePosts } from "../hooks/usePosts";
-import { Post as PostType } from "../types/posts";
 import { Button } from ".";
+import { usePosts } from "@/hooks/usePosts";
+import { PostType } from "@/types/posts";
+import { loader } from "@/assets";
 
 const PostsList = () => {
   const { posts, loading, isFetchingMore, error, loadMorePosts, hasNextPage } =
@@ -22,9 +23,9 @@ const PostsList = () => {
         )}
         {loading && (
           <img
-            src="/path/to/loader.gif"
+            src={loader}
             alt="loader"
-            className="w-[100px] h-[100px] object-contain self-center"
+            className="w-[100px] h-[200px] object-contain self-center"
           />
         )}
         {!loading &&
