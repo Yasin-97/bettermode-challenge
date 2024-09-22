@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Post as PostType } from "../types/posts";
-import { useAddReaction } from "../hooks/useAddReactions";
-import { useRemoveReaction } from "../hooks/useRemoveReaction";
 import { FaHeart, FaSmile, FaSurprise } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
 import { Button } from ".";
 import { BiCommentDetail } from "react-icons/bi";
+import { PostType } from "@/types/posts";
+import { useAddReaction } from "@/hooks/useAddReactions";
+import { useRemoveReaction } from "@/hooks/useRemoveReaction";
 
 type PostProps = {
   post: PostType;
