@@ -6,17 +6,16 @@ import ReactDOMServer from "react-dom/server";
 import { PageShell } from "./PageShell";
 import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr/server";
 import logoUrl from "./logo.svg";
+import App from "@/pages";
 
 async function render(pageContext) {
   const { Page, pageProps, urlPathname } = pageContext;
   // This render() hook only supports SSR, see https://vite-plugin-ssr.com/render-modes for how to modify render() to support SPA
 
-  if (!Page)
-    throw new Error("My render() hook expects pageContext.Page to be defined");
   const pageHtml = ReactDOMServer.renderToString(
     <StaticRouter location={urlPathname}>
       <PageShell pageContext={pageContext}>
-        <Page {...pageProps} />
+        <App />
       </PageShell>
     </StaticRouter>
   );
@@ -40,6 +39,7 @@ async function render(pageContext) {
       <body>
         <div id="react-root">${dangerouslySkipEscape(pageHtml)}</div>
       </body>
+      <script type="module" src="/src/renderer/_default.page.client.tsx"></script>
     </html>`;
 
   return {
