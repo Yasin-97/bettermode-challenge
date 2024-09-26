@@ -4,10 +4,15 @@ import { Button } from ".";
 import { usePosts } from "@/hooks/usePosts";
 import { PostType } from "@/types/posts";
 import { loader } from "@/assets";
+import { useSpaces } from "@/hooks/useSpaces";
 
 const PostsList = () => {
+  const { spaces, loading: loadingSpace } = useSpaces(10);
+  const spaceIds = spaces.reduce((acc, curr) => [...acc, curr.id], []);
+  console.log("the sapces", spaceIds);
+
   const { posts, loading, isFetchingMore, error, loadMorePosts, hasNextPage } =
-    usePosts(5, ["kSdFvnYgWwnG"]);
+    usePosts(5, spaceIds, { skip: loadingSpace });
 
   if (error) return <p>Error loading posts: {error.message}</p>;
 
