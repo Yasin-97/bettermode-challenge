@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { GET_POSTS } from "../graphql/queries/posts.js";
 import { PostsResponse } from "../types/posts/index.js";
 
-export const usePosts = (limit: number, spaceIds: string[]) => {
+export const usePosts = (limit: number, spaceIds: string[], options: any) => {
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const { data, loading, error, fetchMore } = useQuery<PostsResponse>(
     GET_POSTS,
@@ -14,6 +14,7 @@ export const usePosts = (limit: number, spaceIds: string[]) => {
         orderByString: "reactionsCount",
         reverse: true,
       },
+      ...options,
     }
   );
 
