@@ -1,14 +1,20 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { GET_GUEST_TOKEN } from "../graphql/queries/auth.js";
 import { LOGIN_NETWORK } from "../graphql/mutations/auth.js";
 import { toast } from "react-toastify";
+import Cookies from "universal-cookie";
+
 import {
   GuestTokenResponse,
   HandleLogin,
   LoginResponse,
 } from "../types/auth/index.js";
+import { client } from "@/graphql/client.js";
+import { GET_MEMBER } from "@/graphql/queries/member.js";
 
 export const useAuth = () => {
+  const cookies = new Cookies();
+
   const [
     fetchGuestTokenQuery,
     {
@@ -19,13 +25,20 @@ export const useAuth = () => {
   ] = useLazyQuery<GuestTokenResponse>(GET_GUEST_TOKEN);
 
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =
-    useMutation<LoginResponse>(LOGIN_NETWORK);
+    useMutation<LoginResponse>(LOGIN_NETWORK, {
+      onCompleted: (data) => {
+        client.writeQuery({
+          query: GET_MEMBER,
+          data: { ...data.loginNetwork.member },
+        });
+      },
+    });
 
   const fetchGuestToken = async () => {
     try {
       const { data } = await fetchGuestTokenQuery();
       const accessToken = data.tokens.accessToken;
-      localStorage.setItem("guestAccessToken", accessToken);
+      cookies.set("guest_access_token", accessToken, { path: "/" });
       return accessToken;
     } catch (err) {
       toast.error("Failed to fetch guest token");
@@ -39,7 +52,7 @@ export const useAuth = () => {
         variables: { usernameOrEmail, password },
       });
       const accessToken = data?.loginNetwork?.accessToken;
-      localStorage.setItem("userAccessToken", accessToken);
+      cookies.set("access_token", accessToken, { path: "/" });
       return data?.loginNetwork?.member;
     } catch (err: any) {
       const errorMessage = err.message.replace("ApolloError: ", "");

@@ -13,6 +13,12 @@ export const LOGIN_NETWORK = gql`
       member {
         id
         name
+        email
+        profilePicture {
+          ... on Image {
+            url
+          }
+        }
       }
     }
   }
