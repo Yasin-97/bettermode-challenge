@@ -45,6 +45,11 @@ export const GET_POSTS = gql`
           reacted
           reaction
         }
+        space {
+          relativeUrl
+          type
+          name
+        }
         createdAt
         publishedAt
         status
