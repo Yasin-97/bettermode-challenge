@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import Cookies from "universal-cookie";
 import { logo } from "../assets";
 import { navlinks } from "../constants";
 import { IoSearchOutline } from "react-icons/io5";
@@ -8,6 +8,9 @@ import { RiMenu4Fill } from "react-icons/ri";
 import { useSearchPosts } from "../hooks/useSearchPosts";
 import { formatDistanceToNow } from "date-fns";
 import useDebounce from "../lib/useDebounce";
+import { GET_MEMBER } from "@/graphql/queries/member";
+import { useQuery } from "@apollo/client";
+import { useDecodeJWT } from "@/lib/useDecodeJWT";
 
 const NavLink = ({ icon: Icon, name, isActive, disabled, handleClick }) => (
   <div
@@ -31,6 +34,16 @@ const Navbar = () => {
   const debouncedSearchQuery = useDebounce(searchQuery, 400);
   const { posts } = useSearchPosts(debouncedSearchQuery);
 
+  const cookies = new Cookies();
+  const token = cookies.get("access_token");
+  const decodedToken = useDecodeJWT(token);
+  const { data, error, loading } = useQuery(GET_MEMBER, {
+    variables: {
+      id: decodedToken?.id,
+    },
+  });
+  const userAvatar = data?.member?.profilePicture?.url;
+
   const searchedPosts = posts[0]?.hits;
 
   const onPostClick = (entityId, path, title) => {
@@ -44,46 +57,62 @@ const Navbar = () => {
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
+  useEffect(() => {
+    if (!loading && !userAvatar) navigate("/login");
+  }, []);
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between gap-6 sticky top-4 bg-[#13131a] pb-4">
-      <div className="lg:flex-1 flex flex-row py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px] relative w-full">
-        <IoSearchOutline className="w-6 h-6 font-bold text-[#4acd8d] self-center mr-2" />
-        <input
-          onChange={handleSearch}
-          type="text"
-          placeholder="Search for posts"
-          className="placeholder:font-medium flex w-full font-epilogue font-medium text-[16px] placeholder:text-[#4b5264] text-white bg-transparent outline-none"
-        />
-        <div className="absolute top-[52px] left-0 right-0 w-full">
-          {!!searchedPosts?.length && (
-            <div className="p-4 bg-[#1c1c24] rounded-[10px] space-y-4 border-2 border-slate-700">
-              {searchedPosts.map((post) => (
-                <div
-                  className="flex flex-col border-b-2 border-slate-700 last:border-none pb-2 gap-2 cursor-pointer hover:pl-1 transition-all "
-                  onClick={() =>
-                    onPostClick(post.entityId, post.in.address.path, post.title)
-                  }
-                >
-                  <div className="flex items-center gap-2">
-                    <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-white">
-                      {post.title}
-                    </h4>
+      <div className="flex items-center gap-3 w-full">
+        <div className="lg:flex-1 flex flex-row py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px] relative w-full">
+          <IoSearchOutline className="w-6 h-6 font-bold text-[#4acd8d] self-center mr-2" />
+          <input
+            onChange={handleSearch}
+            type="text"
+            placeholder="Search for posts"
+            className="placeholder:font-medium flex w-full font-epilogue font-medium text-[16px] placeholder:text-[#4b5264] text-white bg-transparent outline-none"
+          />
+          <div className="absolute top-[52px] left-0 right-0 w-full">
+            {!!searchedPosts?.length && (
+              <div className="p-4 bg-[#1c1c24] rounded-[10px] space-y-4 border-2 border-slate-700">
+                {searchedPosts.map((post) => (
+                  <div
+                    className="flex flex-col border-b-2 border-slate-700 last:border-none pb-2 gap-2 cursor-pointer hover:pl-1 transition-all "
+                    onClick={() =>
+                      onPostClick(
+                        post.entityId,
+                        post.in.address.path,
+                        post.title
+                      )
+                    }
+                  >
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-white">
+                        {post.title}
+                      </h4>
+                    </div>
+                    <div className="text-gray-500">
+                      <span>
+                        {formatDistanceToNow(new Date(post?.created))} ago
+                      </span>
+                      <span className="ml-4 ">By</span>
+                      <span className="ml-1 text-gray-400 font-medium uppercase">
+                        {post.by.name}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-gray-500">
-                    <span>
-                      {formatDistanceToNow(new Date(post?.created))} ago
-                    </span>
-                    <span className="ml-4 ">By</span>
-                    <span className="ml-1 text-gray-400 font-medium uppercase">
-                      {post.by.name}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+        {userAvatar && (
+          <img
+            src={userAvatar}
+            alt="user avatar"
+            className="w-11 h-11 rounded-full"
+          />
+        )}
       </div>
       <div className="sm:hidden flex justify-between items-center relative">
         <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
