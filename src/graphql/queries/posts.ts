@@ -186,3 +186,107 @@ export const SEARCH_POSTS = gql`
     }
   }
 `;
+
+export const GET_POST_BY_ID = gql`
+  query GetPostById($id: ID!) {
+    post(id: $id) {
+      id
+      slug
+      fields {
+        key
+        value
+      }
+      reactions {
+        reacted
+        reaction
+      }
+      space {
+        relativeUrl
+        type
+        name
+      }
+      createdBy {
+        member {
+          name
+          email
+          profilePicture {
+            ... on Image {
+              url
+            }
+          }
+        }
+      }
+      createdAt
+      publishedAt
+      status
+      title
+      description
+      totalRepliesCount
+    }
+  }
+`;
+
+export const GET_REPLIES = gql`
+  query GetReplies(
+    $postId: ID!
+    $limit: Int!
+    $after: String
+    $before: String
+    $excludePins: Boolean
+    $offset: Int
+    $orderBy: PostListOrderByEnum
+    $reverse: Boolean
+  ) {
+    replies(
+      postId: $postId
+      limit: $limit
+      after: $after
+      before: $before
+      excludePins: $excludePins
+      offset: $offset
+      orderBy: $orderBy
+      reverse: $reverse
+    ) {
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        id
+        slug
+        fields {
+          key
+          value
+        }
+        reactions {
+          reacted
+          reaction
+        }
+        space {
+          relativeUrl
+          type
+          name
+        }
+        createdBy {
+          member {
+            name
+            email
+            profilePicture {
+              ... on Image {
+                url
+              }
+            }
+          }
+        }
+
+        createdAt
+        publishedAt
+        status
+        title
+        description
+        totalRepliesCount
+      }
+    }
+  }
+`;

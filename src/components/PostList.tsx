@@ -9,7 +9,6 @@ import { useSpaces } from "@/hooks/useSpaces";
 const PostsList = () => {
   const { spaces, loading: loadingSpace } = useSpaces(10);
   const spaceIds = spaces.reduce((acc, curr) => [...acc, curr.id], []);
-  console.log("the sapces", spaceIds);
 
   const { posts, loading, isFetchingMore, error, loadMorePosts, hasNextPage } =
     usePosts(5, spaceIds, { skip: loadingSpace });
