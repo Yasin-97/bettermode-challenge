@@ -5,6 +5,7 @@ import { usePosts } from "@/hooks/usePosts";
 import { PostType } from "@/types/posts";
 import { loader } from "@/assets";
 import { useSpaces } from "@/hooks/useSpaces";
+import CardPaper from "./CardPaper";
 
 const PostsList = () => {
   const { spaces, loading: loadingSpace } = useSpaces(10);
@@ -16,11 +17,11 @@ const PostsList = () => {
   if (error) return <p>Error loading posts: {error.message}</p>;
 
   return (
-    <div className="w-full p-4 flex flex-col bg-[#1c1c24] rounded-[10px] flex-[2] overflow-auto">
+    <CardPaper>
       <div className="flex flex-col gap-1">
         {!loading && !posts.length && (
           <div className="flex flex-col items-center h-[300px] justify-center">
-            <p className="mb-5 font-epilogue font-medium text-[16px] leading-[30px] text-[#808191]">
+            <p className="mb-5 font-epilogue font-medium text-[16px] leading-[30px] text-secondary">
               No posts available.
             </p>
           </div>
@@ -44,7 +45,7 @@ const PostsList = () => {
           </Button>
         )}
       </div>
-    </div>
+    </CardPaper>
   );
 };
 
