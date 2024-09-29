@@ -1,4 +1,4 @@
-import PostsList from "@/components/PostList";
+import PostsList from "@/pages/dashboard/PostList";
 import PrivateLayout from "@/layouts/PrivateLayout";
 
 const Dashboard = () => {

@@ -1,11 +1,11 @@
 import React from "react";
-import Post from "./Post";
-import { Button } from ".";
+import Post from "../../components/Post";
+import { Button } from "../../components";
 import { usePosts } from "@/hooks/usePosts";
 import { PostType } from "@/types/posts";
 import { loader } from "@/assets";
 import { useSpaces } from "@/hooks/useSpaces";
-import CardPaper from "./CardPaper";
+import CardPaper from "../../components/CardPaper";
 
 const PostsList = () => {
   const { spaces, loading: loadingSpace } = useSpaces(10);
