@@ -5,7 +5,8 @@ import Login from "./login/Login";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "@/graphql/client";
 import PostDetails from "./spaces/PostDetails";
-import Dashboard from "./dashboard/Dashboard";
+import NotFound from "./notFound/NotFound";
+import Dashboard from "./dashboard/dashboard";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/spaces/:spacename/:postid" element={<PostDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </ApolloProvider>
   );
