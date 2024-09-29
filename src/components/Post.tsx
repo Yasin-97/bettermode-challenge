@@ -51,14 +51,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   return (
     <Link to={`/spaces${post.space.relativeUrl}/${post.id}`} className="block">
-      <div className="p-4 bg-[#13131a] rounded-[10px] space-y-4">
+      <div className="p-4 bg-background-dark rounded-[10px] space-y-4 hover:ml-1 transition-all">
         <div className="flex flex-col border border-b-2 last:border-none">
           <div className="flex items-center gap-2">
-            <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-white">
+            <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-gray-200">
               {post.title}
             </h4>
           </div>
-          <p className="mt-[20px] font-epilogue font-semibold text-[14px] leading-[22px] text-[#808191]">
+          <p className="mt-[20px] font-epilogue font-semibold text-[14px] leading-[22px] text-secondary">
             {post.description}
           </p>
           <div className="flex justify-between items-center mt-4">

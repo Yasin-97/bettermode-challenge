@@ -27,9 +27,9 @@ const Login = () => {
 
   return (
     <PublicLayout>
-      <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
-        <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3a3a43] rounded-[10px] w-full">
-          <h1 className="font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white">
+      <div className=" bg-background flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+        <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-primary rounded-[10px] w-full">
+          <h1 className="font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-gray-200">
             Login
           </h1>
         </div>
@@ -58,7 +58,7 @@ const Login = () => {
             errors={errors}
             handleChange={() => {}}
           />
-          <Button btnType="submit" className="w-full mt-4 bg-[#8c6dfd]">
+          <Button btnType="submit" className="w-full mt-4 bg-primary-light">
             Login
           </Button>
         </form>

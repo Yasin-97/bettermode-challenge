@@ -15,14 +15,14 @@ import { useDecodeJWT } from "@/lib/useDecodeJWT";
 const NavLink = ({ icon: Icon, name, isActive, disabled, handleClick }) => (
   <div
     className={`w-full h-[48px] rounded-[10px] px-2 ${
-      isActive ? "bg-[#2c2f32] text-red-200" : ""
+      isActive ? "bg-primary-dark text-[#ffd100]" : ""
     } flex justify-start items-center  ${!disabled ? "cursor-pointer" : ""} ${
       name && "gap-2"
     }`}
     onClick={handleClick}
   >
-    <Icon className={`w-6 h-6 ${!isActive && "text-red-500"}`} />
-    <span className="text-white">{name}</span>
+    <Icon className={`w-6 h-6 ${!isActive && "text-[#ffd00066]"}`} />
+    <span className="text-gray-300 font-medium">{name}</span>
   </div>
 );
 
@@ -62,19 +62,19 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="flex md:flex-row flex-col-reverse justify-between gap-6 sticky top-4 bg-[#13131a] pb-4">
+    <div className="flex md:flex-row flex-col-reverse justify-between gap-6 sticky top-4 bg-background-dark pb-4">
       <div className="flex items-center gap-3 w-full">
-        <div className="lg:flex-1 flex flex-row py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px] relative w-full">
-          <IoSearchOutline className="w-6 h-6 font-bold text-[#4acd8d] self-center mr-2" />
+        <div className="lg:flex-1 flex flex-row py-2 pl-4 pr-2 h-[52px] bg-background rounded-[100px] relative w-full">
+          <IoSearchOutline className="w-6 h-6 font-bold text-secondary-light self-center mr-2" />
           <input
             onChange={handleSearch}
             type="text"
             placeholder="Search for posts"
-            className="placeholder:font-medium flex w-full font-epilogue font-medium text-[16px] placeholder:text-[#4b5264] text-white bg-transparent outline-none"
+            className="placeholder:font-medium flex w-full font-epilogue font-medium text-[16px] placeholder:text-secondary-dark text-gray-200 bg-transparent outline-none"
           />
           <div className="absolute top-[52px] left-0 right-0 w-full">
             {!!searchedPosts?.length && (
-              <div className="p-4 bg-[#1c1c24] rounded-[10px] space-y-4 border-2 border-slate-700">
+              <div className="p-4 bg-background rounded-[10px] space-y-4 border border-slate-500">
                 {searchedPosts.map((post) => (
                   <div
                     className="flex flex-col border-b-2 border-slate-700 last:border-none pb-2 gap-2 cursor-pointer hover:pl-1 transition-all "
@@ -87,7 +87,7 @@ const Navbar = () => {
                     }
                   >
                     <div className="flex items-center gap-2">
-                      <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-white">
+                      <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-gray-200">
                         {post.title}
                       </h4>
                     </div>
@@ -115,13 +115,13 @@ const Navbar = () => {
         )}
       </div>
       <div className="sm:hidden flex justify-between items-center relative">
-        <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+        <div className="w-[40px] h-[40px] rounded-[10px] bg-primary-dark flex justify-center items-center cursor-pointer">
           <img
             src={logo}
             alt="user"
             className="w-[60%] h-[60%] object-contain"
             onClick={() => {
-              navigate("/");
+              navigate("/dashboard");
               setToggleDrawer(false);
             }}
           />
@@ -129,10 +129,10 @@ const Navbar = () => {
 
         <RiMenu4Fill
           onClick={() => setToggleDrawer((prev) => !prev)}
-          className="w-[34px] h-[34px] text-white"
+          className="w-[34px] h-[34px] text-gray-200 cursor-pointer"
         />
         <div
-          className={`absolute top-[60px] right-0 left-0 bg-[#1c1c24] z-10 shadow-secondary py-4 ${
+          className={`absolute top-[60px] right-0 left-0 bg-background z-10 shadow-secondary py-4 ${
             !toggleDrawer ? "-translate-y-[100vh]" : "translate-y-0"
           } transition-all duration-700`}
         >

@@ -22,7 +22,7 @@ const Button = ({
     <button
       disabled={isLoading}
       type={btnType}
-      className={`flex justify-center items-center font-epilogue font-semibold text-[16px] leading-[26px] text-white min-h-[52px] rounded-[10px] transition-all ${
+      className={`flex justify-center items-center font-epilogue font-semibold text-[16px] leading-[26px] text-gray-200 min-h-[52px] rounded-[10px] transition-all ${
         compact && "!min-h-[32px]"
       } ${className}`}
       onClick={onClick}

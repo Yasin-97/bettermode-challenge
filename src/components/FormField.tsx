@@ -37,7 +37,7 @@ const FormField = ({
   return (
     <label className="flex-1 w-full flex flex-col">
       {labelName && (
-        <span className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
+        <span className="font-epilogue font-medium text-[14px] leading-[22px] text-secondary mb-[10px]">
           {labelName}
         </span>
       )}
@@ -54,7 +54,7 @@ const FormField = ({
               spellCheck
               rows={textAreaRow}
               placeholder={placeholder}
-              className={`focus-visible:border focus-visible:border-gray-400 py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300px] ${className}`}
+              className={`focus-visible:border focus-visible:border-gray-400 py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-primary bg-transparent font-epilogue text-gray-200 text-[14px] placeholder:text-secondary-dark rounded-[10px] sm:min-w-[300px] ${className}`}
               onChange={(e) => {
                 handleChange(e);
                 field.onChange(e);
@@ -68,7 +68,7 @@ const FormField = ({
               type={inputType}
               step="0.1"
               placeholder={placeholder}
-              className={`focus-visible:border focus-visible:border-gray-400 py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300px] ${className}`}
+              className={`focus-visible:border focus-visible:border-gray-400 py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-primary bg-transparent font-epilogue text-gray-200 text-[14px] placeholder:text-secondary-dark rounded-[10px] sm:min-w-[300px] ${className}`}
               onChange={(e) => {
                 handleChange(e);
                 field.onChange(e);

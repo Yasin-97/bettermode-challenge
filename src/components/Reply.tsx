@@ -25,7 +25,7 @@ const Reply = ({ reply }: ReplyProps) => {
           className="w-8 h-8 rounded-full"
         />
         <div className="flex flex-col">
-          <span className="font-epilogue font-semibold text-[18px] leading-[22px] text-white">
+          <span className="font-epilogue font-semibold text-[18px] leading-[22px] text-gray-200">
             {reply.createdBy.member.name}
           </span>
           <span className="text-gray-400 text-sm">

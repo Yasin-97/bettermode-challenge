@@ -8,7 +8,7 @@ const Loader = ({ className }: LoaderType) => {
         alt="loader"
         className={`w-[100px] h-[100px] object-contain ${className}`}
       />
-      <p className="mt-[20px] font-epilogue font-bold text-[20px] text-white text-center">
+      <p className="mt-[20px] font-epilogue font-bold text-[20px] text-gray-200 text-center">
         Please wait...
       </p>
     </div>

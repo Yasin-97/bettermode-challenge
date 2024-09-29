@@ -6,7 +6,7 @@ type PrivateLayoutProps = { children: ReactNode };
 
 const PrivateLayout = ({ children }: PrivateLayoutProps) => {
   return (
-    <div className="relative p-4 bg-[#13131a] min-h-screen flex flex-row">
+    <div className="relative p-4 bg-background-dark min-h-screen flex flex-row">
       <div className="sm:flex hidden mr-4 relative">
         <Sidebar />
       </div>
