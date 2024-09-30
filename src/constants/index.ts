@@ -9,27 +9,27 @@ export const navlinks = [
   {
     name: "Home",
     icon: MdOutlineHome,
-    link: "/",
+    link: "/dashboard",
   },
   {
     name: "Forum",
     icon: MdOutlineForum,
-    link: "/forum",
+    link: "/dashboard/forum",
   },
   {
     name: "Directory",
     icon: GoFileDirectory,
-    link: "/directory",
+    link: "/dashboard/directory",
   },
   {
     name: "Notification",
     icon: MdNotificationsNone,
-    link: "/notification",
+    link: "/dashboard/notification",
   },
   {
     name: "Message",
     icon: MdOutlineMessage,
-    link: "/message",
+    link: "/dashboard/message",
   },
   {
     name: "Logout",
