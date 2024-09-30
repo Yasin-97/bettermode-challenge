@@ -28,7 +28,7 @@ const NotFound = () => {
 
   return (
     <PublicLayout>
-      <div className="bg-background flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+      <div className="bg-background flex justify-center items-center flex-col rounded-xl sm:p-10 p-4">
         <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-primary rounded-[10px] w-full">
           <h1 className="font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-gray-200">
             404 - Page Not Found
