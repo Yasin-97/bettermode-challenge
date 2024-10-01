@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaHeart, FaSmile, FaSurprise } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
-import { Button } from ".";
+import { Button } from "../../components";
 import { BiCommentDetail } from "react-icons/bi";
 import { PostType } from "@/types/posts";
 import { useAddReaction } from "@/hooks/useAddReactions";

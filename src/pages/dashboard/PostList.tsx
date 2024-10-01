@@ -1,5 +1,5 @@
 import React from "react";
-import Post from "../../components/Post";
+import Post from "./Post";
 import { Button } from "../../components";
 import { usePosts } from "@/hooks/usePosts";
 import { PostType } from "@/types/posts";
