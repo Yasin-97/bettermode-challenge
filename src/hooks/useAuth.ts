@@ -9,8 +9,8 @@ import {
   HandleLogin,
   LoginResponse,
 } from "../types/auth/index.js";
-import { client } from "@/graphql/client.js";
 import { GET_MEMBER } from "@/graphql/queries/member.js";
+import { makeApolloClient } from "@/renderer/_default.page.client.js";
 
 export const useAuth = () => {
   const cookies = new Cookies();
@@ -27,7 +27,7 @@ export const useAuth = () => {
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =
     useMutation<LoginResponse>(LOGIN_NETWORK, {
       onCompleted: (data) => {
-        client.writeQuery({
+        makeApolloClient().writeQuery({
           query: GET_MEMBER,
           data: { ...data.loginNetwork.member },
         });
