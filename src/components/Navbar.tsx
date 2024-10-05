@@ -15,13 +15,13 @@ import { useDecodeJWT } from "@/lib/useDecodeJWT";
 const NavLink = ({ icon: Icon, name, isActive, disabled, handleClick }) => (
   <div
     className={`w-full h-[48px] rounded-[10px] px-2 ${
-      isActive ? "bg-primary-dark text-[#ffd100]" : ""
+      isActive ? "bg-primary-dark text-navIcon" : ""
     } flex justify-start items-center  ${!disabled ? "cursor-pointer" : ""} ${
       name && "gap-2"
     }`}
     onClick={handleClick}
   >
-    <Icon className={`w-6 h-6 ${!isActive && "text-[#ffd00066]"}`} />
+    <Icon className={`w-6 h-6 ${!isActive && "text-[rgba(255,208,0,0.4)]"}`} />
     <span className="text-gray-300 font-medium">{name}</span>
   </div>
 );

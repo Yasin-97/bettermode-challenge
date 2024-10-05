@@ -51,7 +51,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   return (
     <Link to={`/dashboard/${post.id}`} className="block">
-      <div className="p-4 bg-background-dark rounded-[10px] space-y-4 hover:ml-1 transition-all">
+      <div className="p-4 bg-background-dark rounded-[10px] space-y-4 hover:shadow-light-md shadow-light-sm transition-all hover:scale-[1.03]">
         <div className="flex flex-col border border-b-2 last:border-none">
           <div className="flex items-center gap-2">
             <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-gray-200">

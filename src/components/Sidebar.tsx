@@ -6,7 +6,7 @@ import { navlinks } from "../constants";
 const NavLink = ({ icon: Icon, isActive, disabled, handleClick }) => (
   <div
     className={`w-[48px] h-[48px] rounded-[10px] ${
-      isActive ? "bg-primary-dark text-[#ffd100]" : ""
+      isActive ? "bg-primary-dark text-navIcon" : ""
     } flex justify-center items-center ${!disabled ? "cursor-pointer" : ""}`}
     onClick={handleClick}
   >

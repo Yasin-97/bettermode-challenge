@@ -18,7 +18,7 @@ const PostsList = () => {
 
   return (
     <CardPaper>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         {!loading && !posts.length && (
           <div className="flex flex-col items-center h-[300px] justify-center">
             <p className="mb-5 font-epilogue font-medium text-[16px] leading-[30px] text-secondary">
