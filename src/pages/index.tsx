@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./login/Login";
 import { ApolloProvider } from "@apollo/client";
-import PostDetails from "./spaces/PostDetails";
+import PostDetails from "./dashboard/[postid]/PostDetails";
 import NotFound from "../components/NotFound";
 import Dashboard from "./dashboard/dashboard";
 import PrivateRoute from "@/components/PrivateRoute";
@@ -15,10 +15,7 @@ function App({ apolloClient }) {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route
-          path="/spaces/:spacename/:postid"
-          element={<PrivateRoute element={PostDetails} />}
-        />
+        <Route path="/dashboard/:postid" element={<PostDetails />} />
         <Route
           path="/dashboard/forum"
           element={<PrivateRoute element={UnderConstruction} />}
