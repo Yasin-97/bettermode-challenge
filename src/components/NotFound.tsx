@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import PublicLayout from "@/layouts/PublicLayout";
 import { Button } from "@/components";
-import { GET_MEMBER } from "@/graphql/queries/member";
 import { useQuery } from "@apollo/client";
 import Cookies from "universal-cookie";
 import { useDecodeJWT } from "@/lib/useDecodeJWT";
+import { GetMemberQuery } from "@/graphql/member/type";
+import { GET_MEMBER } from "@/graphql/member";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const NotFound = () => {
   const token = cookies.get("access_token");
   const decodedToken = useDecodeJWT(token);
 
-  const { data } = useQuery(GET_MEMBER, {
+  const { data } = useQuery<GetMemberQuery>(GET_MEMBER, {
     variables: {
       id: decodedToken?.id,
     },

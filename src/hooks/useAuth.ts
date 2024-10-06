@@ -1,7 +1,6 @@
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
-import { GET_MEMBER } from "@/graphql/queries/member.js";
 import { makeApolloClient } from "@/renderer/_default.page.client.js";
 import { GET_GUEST_TOKEN, LOGIN_NETWORK } from "@/graphql/auth/index.js";
 import {
@@ -9,6 +8,7 @@ import {
   LoginNetworkResponse,
   LoginNetworkVariables,
 } from "@/graphql/auth/types";
+import { GET_MEMBER } from "@/graphql/member";
 
 export const useAuth = () => {
   const cookies = new Cookies();

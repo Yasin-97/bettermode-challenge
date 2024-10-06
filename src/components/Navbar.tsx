@@ -8,9 +8,10 @@ import { RiMenu4Fill } from "react-icons/ri";
 import { useSearchPosts } from "../hooks/useSearchPosts";
 import { formatDistanceToNow } from "date-fns";
 import useDebounce from "../lib/useDebounce";
-import { GET_MEMBER } from "@/graphql/queries/member";
 import { useQuery } from "@apollo/client";
 import { useDecodeJWT } from "@/lib/useDecodeJWT";
+import { GetMemberQuery } from "@/graphql/member/type";
+import { GET_MEMBER } from "@/graphql/member";
 
 const NavLink = ({ icon: Icon, name, isActive, disabled, handleClick }) => (
   <div
@@ -32,12 +33,12 @@ const Navbar = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 400);
-  const { posts } = useSearchPosts(debouncedSearchQuery);
+  const { posts } = useSearchPosts({ input: debouncedSearchQuery });
 
   const cookies = new Cookies();
   const token = cookies.get("access_token");
   const decodedToken = useDecodeJWT(token);
-  const { data, error, loading } = useQuery(GET_MEMBER, {
+  const { data, error, loading } = useQuery<GetMemberQuery>(GET_MEMBER, {
     variables: {
       id: decodedToken?.id,
     },
