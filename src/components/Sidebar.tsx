@@ -2,17 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { logo } from "../assets";
 import { navlinks } from "../constants";
-
-const NavLink = ({ icon: Icon, isActive, disabled, handleClick }) => (
-  <div
-    className={`w-[48px] h-[48px] rounded-[10px] ${
-      isActive ? "bg-primary-dark text-navIcon" : ""
-    } flex justify-center items-center ${!disabled ? "cursor-pointer" : ""}`}
-    onClick={handleClick}
-  >
-    <Icon className={`w-1/2 h-1/2 ${!isActive && "text-[#ffd00066]"}`} />
-  </div>
-);
+import NavLink from "./Navlink";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -37,6 +27,7 @@ const Sidebar = () => {
               {navlinks.map((navlink) => (
                 <NavLink
                   key={navlink.name}
+                  hideName
                   handleClick={() => {
                     navigate(navlink.link);
                   }}

@@ -12,6 +12,7 @@ import { useQuery } from "@apollo/client";
 import { useDecodeJWT } from "@/lib/useDecodeJWT";
 import { GetMemberQuery } from "@/graphql/member/type";
 import { GET_MEMBER } from "@/graphql/member";
+import Navlink from "../components/Navlink";
 
 const NavLink = ({ icon: Icon, name, isActive, disabled, handleClick }) => (
   <div
@@ -139,7 +140,7 @@ const Navbar = () => {
         >
           <ul className=" px-2">
             {navlinks.map((navlink) => (
-              <NavLink
+              <Navlink
                 key={navlink.name}
                 handleClick={() => {
                   navigate(navlink.link);
