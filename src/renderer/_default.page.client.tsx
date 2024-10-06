@@ -1,17 +1,28 @@
 export { render };
 
 import { hydrateRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import App from "@/pages";
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import Cookies from "universal-cookie";
 import "./index.css";
 
+type ApolloClientOptions = {
+  apolloIntialState?: NormalizedCacheObject;
+};
+
 async function render(pageContext: any) {
   const root = document.getElementById("react-root");
   if (!root) throw new Error("DOM element #react-root not found");
-  const apolloClient = makeApolloClient(pageContext.apolloIntialState);
+  const apolloClient = makeApolloClient({
+    apolloIntialState: pageContext.apolloIntialState,
+  });
   hydrateRoot(
     root,
     <BrowserRouter>
@@ -20,7 +31,9 @@ async function render(pageContext: any) {
   );
 }
 
-export function makeApolloClient(apolloIntialState) {
+export function makeApolloClient({
+  apolloIntialState,
+}: ApolloClientOptions = {}) {
   const httpLink = new HttpLink({ uri: "https://api.bettermode.com" });
 
   const authLink = setContext((_, { headers }) => {
@@ -36,8 +49,13 @@ export function makeApolloClient(apolloIntialState) {
     };
   });
 
+  const cache = new InMemoryCache();
+  if (apolloIntialState) {
+    cache.restore(apolloIntialState);
+  }
+
   return new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache().restore(apolloIntialState),
+    cache,
   });
 }
