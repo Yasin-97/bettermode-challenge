@@ -1,14 +1,15 @@
 import { loader } from "@/assets";
 import CardPaper from "@/components/CardPaper";
 import Reply from "@/components/Reply";
-import { GET_REPLIES } from "@/graphql/queries/posts";
+import { GET_REPLIES } from "@/graphql/posts";
+import {
+  GetRepliesQuery,
+  GetRepliesQueryVariables,
+} from "@/graphql/posts/type";
 import { useQuery } from "@apollo/client";
-import React from "react";
 
-type ReplyProps = { postId: string };
-
-const Replies = ({ postId }: ReplyProps) => {
-  const { data: replies, loading: repliesLoading } = useQuery<PostsResponse>(
+const Replies = ({ postId }: GetRepliesQueryVariables) => {
+  const { data: replies, loading: repliesLoading } = useQuery<GetRepliesQuery>(
     GET_REPLIES,
     {
       variables: {

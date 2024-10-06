@@ -11,7 +11,6 @@ export const GET_SPACES = gql`
     $orderBy: SpaceListOrderByEnum
     $query: String
     $reverse: Boolean
-    $type: [SpaceType!]
   ) {
     spaces(
       after: $after

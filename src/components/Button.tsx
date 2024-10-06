@@ -4,7 +4,7 @@ import { RiLoader4Fill } from "react-icons/ri";
 type ButtonType = {
   btnType?: "submit" | "reset" | "button";
   children: ReactNode;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   className: string;
   isLoading?: boolean;
   compact?: boolean;

@@ -1,7 +1,11 @@
 import { loader } from "@/assets";
 import { Button } from "@/components";
 import CardPaper from "@/components/CardPaper";
-import { GET_POST_BY_ID } from "@/graphql/queries/posts";
+import { GET_POST_BY_ID } from "@/graphql/posts";
+import {
+  GetPostByIdQuery,
+  GetPostByIdQueryVariables,
+} from "@/graphql/posts/type";
 import { useAddReaction } from "@/hooks/useAddReactions";
 import { useRemoveReaction } from "@/hooks/useRemoveReaction";
 import { useQuery } from "@apollo/client";
@@ -9,21 +13,19 @@ import { formatDistanceToNow } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { FaEllipsisV, FaHeart, FaSmile, FaSurprise } from "react-icons/fa";
 
-type PostDetailsContentProps = { postId: string };
-
-const PostDetailsContent = ({ postId }: PostDetailsContentProps) => {
+const PostDetailsContent = ({ id }: GetPostByIdQueryVariables) => {
   const {
     data: postData,
     loading: postDataLoading,
     error,
     fetchMore,
-  } = useQuery<PostsResponse>(GET_POST_BY_ID, {
+  } = useQuery<GetPostByIdQuery>(GET_POST_BY_ID, {
     variables: {
-      id: postId,
+      id,
     },
   });
 
-  const [reaction, setReaction] = useState<string | null>(
+  const [reaction, setReaction] = useState<string | null | undefined>(
     postData?.post?.reactions?.[0]?.reaction
   );
   useEffect(() => {
@@ -98,7 +100,7 @@ const PostDetailsContent = ({ postId }: PostDetailsContentProps) => {
         <div className="flex items-center gap-2">
           <img
             src={postData?.post?.createdBy.member.profilePicture.url}
-            alt={postData?.post?.createdBy.member.profilePicture.name}
+            alt={postData?.post?.createdBy.member.name}
             className="w-10 h-10 rounded-full"
           />
           <div className="flex flex-col">
@@ -107,8 +109,10 @@ const PostDetailsContent = ({ postId }: PostDetailsContentProps) => {
             </span>
             <div>
               <span className="text-gray-400 text-sm">
-                {formatDistanceToNow(new Date(postData?.post?.createdAt))} ago |
-                In the
+                {formatDistanceToNow(
+                  new Date(postData?.post?.createdAt as string)
+                )}{" "}
+                ago | In the
               </span>
               <span className="text-gray-400 text-sm font-bold">
                 {" "}
@@ -138,7 +142,7 @@ const PostDetailsContent = ({ postId }: PostDetailsContentProps) => {
             reaction === "heart" && "text-[28px]"
           }`}
           onClick={(e) => {
-            e.preventDefault();
+            e?.preventDefault();
             handleReaction("heart");
           }}
         >
@@ -150,7 +154,7 @@ const PostDetailsContent = ({ postId }: PostDetailsContentProps) => {
             reaction === "smile" && "text-[28px]"
           }`}
           onClick={(e) => {
-            e.preventDefault();
+            e?.preventDefault();
             handleReaction("smile");
           }}
         >
@@ -162,7 +166,7 @@ const PostDetailsContent = ({ postId }: PostDetailsContentProps) => {
             reaction === "open_mouth" && "text-[28px]"
           }`}
           onClick={(e) => {
-            e.preventDefault();
+            e?.preventDefault();
             handleReaction("open_mouth");
           }}
         >
