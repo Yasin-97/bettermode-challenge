@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_POSTS } from "../graphql/queries/posts.js";
-import { PostsResponse } from "../types/posts/index.js";
+import { GetPostsQuery, GetPostsQueryVariables } from "@/graphql/posts/type.js";
+import { GET_POSTS } from "@/graphql/posts";
 
-export const usePosts = (limit: number, spaceIds: string[], options: any) => {
+export const usePosts = ({
+  limit,
+  spaceIds,
+  options,
+}: GetPostsQueryVariables) => {
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const { data, loading, error, fetchMore } = useQuery<PostsResponse>(
+  const { data, loading, error, fetchMore } = useQuery<GetPostsQuery>(
     GET_POSTS,
     {
       variables: {

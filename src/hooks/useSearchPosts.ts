@@ -1,8 +1,12 @@
 import { useQuery } from "@apollo/client";
-import { SEARCH_POSTS } from "../graphql/queries/posts.js";
+import {
+  SearchPostsQuery,
+  SearchPostsQueryVariables,
+} from "@/graphql/posts/type.js";
+import { SEARCH_POSTS } from "@/graphql/posts";
 
-export const useSearchPosts = (input: string) => {
-  const { data, loading, error } = useQuery(SEARCH_POSTS, {
+export const useSearchPosts = ({ input }: SearchPostsQueryVariables) => {
+  const { data, loading, error } = useQuery<SearchPostsQuery>(SEARCH_POSTS, {
     variables: { input: { query: input, includeExternal: true } },
   });
 

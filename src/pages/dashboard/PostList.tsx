@@ -8,11 +8,14 @@ import { useSpaces } from "@/hooks/useSpaces";
 import CardPaper from "../../components/CardPaper";
 
 const PostsList = () => {
-  const { spaces, loading: loadingSpace } = useSpaces(10);
-  const spaceIds = spaces.reduce((acc, curr) => [...acc, curr.id], []);
+  const { spaces, loading: loadingSpace } = useSpaces({ limit: 10 });
+  const spaceIds: string[] = spaces.reduce((acc: string[], curr) => {
+    acc.push(curr.id);
+    return acc;
+  }, []);
 
   const { posts, loading, isFetchingMore, error, loadMorePosts, hasNextPage } =
-    usePosts(5, spaceIds, { skip: loadingSpace });
+    usePosts({ limit: 5, spaceIds, options: { skip: loadingSpace } });
 
   if (error) return <p>Error loading posts: {error.message}</p>;
 
