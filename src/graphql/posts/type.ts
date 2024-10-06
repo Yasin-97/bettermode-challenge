@@ -256,3 +256,30 @@ export type GetRepliesQuery = {
     }>;
   };
 };
+
+export type AddReactionMutationVariables = {
+  input: AddReactionInput;
+  postId: string;
+};
+
+export type AddReactionMutation = {
+  addReaction: {
+    status: string;
+  };
+};
+
+export type AddReactionInput = {
+  reaction: string;
+  overrideSingleChoiceReactions: boolean;
+};
+
+export type RemoveReactionMutationVariables = {
+  reaction: string;
+  postId: string;
+};
+
+export type RemoveReactionMutation = {
+  removeReaction: {
+    status: string;
+  };
+};

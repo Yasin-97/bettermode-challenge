@@ -1,21 +1,14 @@
+import { REMOVE_REACTION } from "@/graphql/posts";
+import {
+  RemoveReactionMutation,
+  RemoveReactionMutationVariables,
+} from "@/graphql/posts/type";
 import { useMutation } from "@apollo/client";
-import { REMOVE_REACTION } from "../graphql/mutations/posts.js";
-
-type RemoveReactionVariables = {
-  reaction: string;
-  postId: string;
-};
-
-type RemoveReactionResponse = {
-  removeReaction: {
-    status: string;
-  };
-};
 
 export const useRemoveReaction = () => {
   const [removeReaction, { data, loading, error }] = useMutation<
-    RemoveReactionResponse,
-    RemoveReactionVariables
+    RemoveReactionMutation,
+    RemoveReactionMutationVariables
   >(REMOVE_REACTION);
 
   return {
