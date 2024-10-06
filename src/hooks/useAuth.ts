@@ -1,16 +1,14 @@
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
-import { GET_GUEST_TOKEN } from "../graphql/queries/auth.js";
-import { LOGIN_NETWORK } from "../graphql/mutations/auth.js";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
-
-import {
-  GuestTokenResponse,
-  HandleLogin,
-  LoginResponse,
-} from "../types/auth/index.js";
 import { GET_MEMBER } from "@/graphql/queries/member.js";
 import { makeApolloClient } from "@/renderer/_default.page.client.js";
+import { GET_GUEST_TOKEN, LOGIN_NETWORK } from "@/graphql/auth/index.js";
+import {
+  GetGuestTokenResponse,
+  LoginNetworkResponse,
+  LoginNetworkVariables,
+} from "@/graphql/auth/types";
 
 export const useAuth = () => {
   const cookies = new Cookies();
@@ -22,22 +20,22 @@ export const useAuth = () => {
       loading: guestTokenLoading,
       error: guestTokenError,
     },
-  ] = useLazyQuery<GuestTokenResponse>(GET_GUEST_TOKEN);
+  ] = useLazyQuery<GetGuestTokenResponse>(GET_GUEST_TOKEN);
 
   const [login, { data: loginData, loading: loginLoading, error: loginError }] =
-    useMutation<LoginResponse>(LOGIN_NETWORK, {
+    useMutation<LoginNetworkResponse, LoginNetworkVariables>(LOGIN_NETWORK, {
       onCompleted: (data) => {
         makeApolloClient().writeQuery({
           query: GET_MEMBER,
-          data: { ...data.loginNetwork.member },
+          data: { member: data.loginNetwork.member },
         });
       },
     });
 
-  const fetchGuestToken = async () => {
+  const fetchGuestToken = async (): Promise<string | undefined> => {
     try {
       const { data } = await fetchGuestTokenQuery();
-      const accessToken = data.tokens.accessToken;
+      const accessToken = data?.tokens.accessToken;
       cookies.set("guest_access_token", accessToken, { path: "/" });
       return accessToken;
     } catch (err) {
@@ -46,13 +44,20 @@ export const useAuth = () => {
     }
   };
 
-  const handleLogin: HandleLogin = async ({ usernameOrEmail, password }) => {
+  const handleLogin = async ({
+    usernameOrEmail,
+    password,
+  }: LoginNetworkVariables): Promise<
+    LoginNetworkResponse["loginNetwork"]["member"] | undefined
+  > => {
     try {
       const { data } = await login({
         variables: { usernameOrEmail, password },
       });
       const accessToken = data?.loginNetwork?.accessToken;
-      cookies.set("access_token", accessToken, { path: "/" });
+      if (accessToken) {
+        cookies.set("access_token", accessToken, { path: "/" });
+      }
       return data?.loginNetwork?.member;
     } catch (err: any) {
       const errorMessage = err.message.replace("ApolloError: ", "");
