@@ -8,7 +8,7 @@ function PostDetails() {
 
   return (
     <PrivateLayout>
-      <PostDetailsContent postId={postid as string} />
+      <PostDetailsContent id={postid as string} />
       <Replies postId={postid as string} />
     </PrivateLayout>
   );

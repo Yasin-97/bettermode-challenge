@@ -7,17 +7,17 @@ import {
   GetRepliesQueryVariables,
 } from "@/graphql/posts/type";
 import { useQuery } from "@apollo/client";
-
-const Replies = ({ postId }: GetRepliesQueryVariables) => {
-  const { data: replies, loading: repliesLoading } = useQuery<GetRepliesQuery>(
-    GET_REPLIES,
-    {
-      variables: {
-        postId,
-        limit: 10,
-      },
-    }
-  );
+type RepliesType = { postId: string };
+const Replies = ({ postId }: RepliesType) => {
+  const { data: replies, loading: repliesLoading } = useQuery<
+    GetRepliesQuery,
+    GetRepliesQueryVariables
+  >(GET_REPLIES, {
+    variables: {
+      postId,
+      limit: 10,
+    },
+  });
   if (repliesLoading) {
     return (
       <CardPaper className="mt-4 gap-6">

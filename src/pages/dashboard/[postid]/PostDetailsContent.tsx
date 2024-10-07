@@ -12,14 +12,14 @@ import { useQuery } from "@apollo/client";
 import { formatDistanceToNow } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { FaEllipsisV, FaHeart, FaSmile, FaSurprise } from "react-icons/fa";
-
-const PostDetailsContent = ({ id }: GetPostByIdQueryVariables) => {
+type PostDetailsContentType = { id: string };
+const PostDetailsContent = ({ id }: PostDetailsContentType) => {
   const {
     data: postData,
     loading: postDataLoading,
     error,
     fetchMore,
-  } = useQuery<GetPostByIdQuery>(GET_POST_BY_ID, {
+  } = useQuery<GetPostByIdQuery, GetPostByIdQueryVariables>(GET_POST_BY_ID, {
     variables: {
       id,
     },
