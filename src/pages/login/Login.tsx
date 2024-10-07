@@ -58,7 +58,11 @@ const Login = () => {
             errors={errors}
             handleChange={() => {}}
           />
-          <Button btnType="submit" className="w-full mt-4 bg-primary-light">
+          <Button
+            isLoading={guestTokenLoading || loginLoading}
+            btnType="submit"
+            className="w-full mt-4 bg-primary-light"
+          >
             Login
           </Button>
         </form>
