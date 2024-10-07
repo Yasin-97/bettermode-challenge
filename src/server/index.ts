@@ -10,7 +10,6 @@
 //  - vite-node (https://github.com/antfu/vite-node)
 //  - HatTip (https://github.com/hattipjs/hattip)
 //    - You can use Bati (https://batijs.github.io/) to scaffold a vite-plugin-ssr + HatTip app. Note that Bati generates apps that use the V1 design (https://vite-plugin-ssr.com/migration/v1-design) and Vike packages (https://vite-plugin-ssr.com/vike-packages)
-
 import express from "express";
 import compression from "compression";
 import { renderPage } from "vite-plugin-ssr/server";
@@ -23,6 +22,7 @@ import {
   createHttpLink,
   InMemoryCache,
 } from "@apollo/client/index.js";
+import jwt from "jsonwebtoken";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -35,14 +35,9 @@ async function startServer() {
 
   // Vite integration
   if (isProduction) {
-    // In production, we need to serve our static assets ourselves.
-    // (In dev, Vite's middleware serves our static assets.)
     const sirv = (await import("sirv")).default;
     app.use(sirv(`${root}/dist/client`));
   } else {
-    // We instantiate Vite's development server and integrate its middleware to our server.
-    // ⚠️ We instantiate it only in development. (It isn't needed in production and it
-    // would unnecessarily bloat our production server.)
     const vite = await import("vite");
     const viteDevMiddleware = (
       await vite.createServer({
@@ -53,12 +48,29 @@ async function startServer() {
     app.use(viteDevMiddleware);
   }
 
-  // ...
-  // Other middlewares (e.g. some RPC middleware such as Telefunc)
-  // ...
+  // Authentication middleware
+  app.use((req, res, next) => {
+    const cookies = cookie.parse(req.headers.cookie || "");
+    const token = cookies.access_token || cookies.guest_access_token;
 
-  // Vite-plugin-ssr middleware. It should always be our last middleware (because it's a
-  // catch-all middleware superseding any middleware placed after it).
+    if (token) {
+      try {
+        const decodedToken = jwt.decode(token);
+
+        if (decodedToken) {
+          return next();
+        }
+      } catch (err) {
+        console.error("Error decoding token", err);
+      }
+    }
+    if (req.url === "/login") {
+      return next();
+    }
+    res.redirect("/login");
+  });
+
+  // Vite-plugin-ssr middleware
   app.get("*", async (req, res, next) => {
     const apolloClient = makeApolloClient(req);
 
@@ -71,17 +83,12 @@ async function startServer() {
     const { httpResponse } = pageContext;
     if (!httpResponse) {
       return next();
-    }
-    // else if (req.originalUrl === "/") {
-    //   res.redirect("/login");
-    // }
-    else {
+    } else {
       const { body, statusCode, headers, earlyHints } = httpResponse;
       if (res.writeEarlyHints)
         res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) });
       headers.forEach(([name, value]) => res.setHeader(name, value));
       res.status(statusCode).send(body);
-      // For HTTP streams use httpResponse.pipe() instead, see https://vite-plugin-ssr.com/stream
     }
   });
 
@@ -89,7 +96,7 @@ async function startServer() {
   app.listen(port);
 }
 
-function makeApolloClient(req) {
+function makeApolloClient(req: any) {
   const httpLink = createHttpLink({
     uri: "https://api.bettermode.com",
     fetch,
