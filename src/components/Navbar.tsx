@@ -14,20 +14,6 @@ import { GetMemberQuery } from "@/graphql/member/type";
 import { GET_MEMBER } from "@/graphql/member";
 import Navlink from "../components/Navlink";
 
-const NavLink = ({ icon: Icon, name, isActive, disabled, handleClick }) => (
-  <div
-    className={`w-full h-[48px] rounded-[10px] px-2 ${
-      isActive ? "bg-primary-dark text-navIcon" : ""
-    } flex justify-start items-center  ${!disabled ? "cursor-pointer" : ""} ${
-      name && "gap-2"
-    }`}
-    onClick={handleClick}
-  >
-    <Icon className={`w-6 h-6 ${!isActive && "text-[rgba(255,208,0,0.4)]"}`} />
-    <span className="text-gray-300 font-medium">{name}</span>
-  </div>
-);
-
 const Navbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -48,15 +34,12 @@ const Navbar = () => {
 
   const searchedPosts = posts[0]?.hits;
 
-  const onPostClick = (entityId, path, title) => {
-    const titleToUrl = title
-      .replace(/:/g, "")
-      .replace(/\s+/g, "-")
-      .toLowerCase();
-    navigate(`/${path}/${titleToUrl}-${entityId}`);
+  const onPostClick = (entityId: string) => {
+    navigate(`/dashboard/${entityId}`);
+    setSearchQuery("");
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
   };
   useEffect(() => {
@@ -80,13 +63,7 @@ const Navbar = () => {
                 {searchedPosts.map((post) => (
                   <div
                     className="flex flex-col border-b-2 border-slate-700 last:border-none pb-2 gap-2 cursor-pointer hover:pl-1 transition-all "
-                    onClick={() =>
-                      onPostClick(
-                        post.entityId,
-                        post.in.address.path,
-                        post.title
-                      )
-                    }
+                    onClick={() => onPostClick(post.entityId)}
                   >
                     <div className="flex items-center gap-2">
                       <h4 className="font-epilogue font-semibold text-[18px] leading-[22px] text-gray-200">
