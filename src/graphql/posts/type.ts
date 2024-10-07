@@ -207,7 +207,7 @@ export type GetPostByIdQuery = {
 
 export type GetRepliesQueryVariables = {
   postId: string;
-  limit: number;
+  limit?: number;
   after?: string;
   before?: string;
   excludePins?: boolean;

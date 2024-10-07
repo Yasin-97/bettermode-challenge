@@ -1,8 +1,8 @@
+import { ADD_REACTION } from "@/graphql/posts";
 import {
   AddReactionMutation,
   AddReactionMutationVariables,
 } from "@/graphql/posts/type";
-import { ADD_REACTION } from "@/providers/graphql/mutations/posts";
 import { useMutation } from "@apollo/client";
 
 export const useAddReaction = () => {

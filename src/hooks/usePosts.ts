@@ -9,9 +9,8 @@ export const usePosts = ({
   options,
 }: GetPostsQueryVariables) => {
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const { data, loading, error, fetchMore } = useQuery<GetPostsQuery>(
-    GET_POSTS,
-    {
+  const { data, loading, error, fetchMore, networkStatus } =
+    useQuery<GetPostsQuery>(GET_POSTS, {
       variables: {
         limit,
         spaceIds,
@@ -19,8 +18,7 @@ export const usePosts = ({
         reverse: true,
       },
       ...options,
-    }
-  );
+    });
 
   const loadMorePosts = async () => {
     if (data?.posts.pageInfo.hasNextPage) {
@@ -47,6 +45,7 @@ export const usePosts = ({
   };
 
   return {
+    networkStatus,
     posts: data?.posts.nodes || [],
     loading: loading,
     isFetchingMore,
